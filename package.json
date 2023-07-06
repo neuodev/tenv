@@ -1,7 +1,7 @@
 {
   "name": "tenv",
   "version": "0.0.1",
-  "description": "Generate types for environment variables on the fly",
+  "description": "Generate typescript types for environment variables on the fly",
   "main": "src/tenv.ts",
   "author": "Ahmed Ibrahim <me@ahmedibrahim.dev>",
   "scripts": {
