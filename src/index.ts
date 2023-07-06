@@ -1,4 +1,5 @@
 import { program } from "commander";
+import { TypesGenerator } from "./types";
 // --sys
 // --dotenv
 // --all
@@ -8,27 +9,27 @@ program
   .description("Generate types for environment variables on the fly")
   .version("tenv: 0.0.1", "-v, --version")
   .option(
-    "-d, --dotenv <path>",
+    "--dotenv <path>",
     "Generate types for environment variables located in a dotenv file"
   )
   .option(
-    "-s, --sys",
+    "--sys",
     "Generate types for all environment variables existed at the system level. All variables located in `process.env`"
   )
   .option(
-    "-a, --all <path>",
+    "--all <path>",
     "Generate types for all environment variables dotenv + system"
-  );
-
-//   declare var process: {
-//     env: {};
-//   };
+  )
+  .argument("<output-file>", "File path where to output the types");
 
 main();
 function main() {
   program.parse(process.argv);
+
   const options = program.opts();
-  if (options.dotenv) return console.log("dotenv");
-  if (options.all) return console.log("all");
-  if (options.sys) return console.log("sys");
+  const typesGenerator = new TypesGenerator(program.args[0]);
+
+  if (options.dotenv) return typesGenerator.fromDotenv(options.dotenv);
+  if (options.all) return typesGenerator.allVars(options.all);
+  if (options.sys) return typesGenerator.fromSys();
 }
